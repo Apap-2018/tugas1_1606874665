@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<object th:include="fragments/fragment :: title" th:remove="tag"></object>
+	<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+	<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+	<nav th:replace="fragments/fragment :: navbar"></nav>	
+	<div>
+		<div class="container-fluid">
+		<p></p>
+		<h3 th:text="'Lihat Data Pegawai - ' + ${pegawai.nip}"></h3>
+		<p></p>
+		<table class = "table">
+		<tbody>
+		  <tr>
+		    <td th:text= "'NIP'"></td>
+		    <td th:text= "': ' + ${pegawai.nip}"></td>
+		  </tr>
+		  <tr>
+		    <td th:text= "'Nama'"></td>
+		    <td th:text= "': ' + ${pegawai.nama_pegawai}"></td>
+		  </tr>
+		  <tr>
+		    <td th:text= "'Tempat Lahir'"></td>
+		    <td th:text= "': ' + ${pegawai.tempat_lahir}"></td>
+		  </tr>
+		  <tr>
+		    <td th:text= "'Tanggal Lahir'"></td>
+		    <td th:text= "': ' + ${pegawai.tanggal_lahir}"></td>
+		  </tr>
+		  <tr>
+		    <td th:text= "'Tahun Masuk'"></td>
+		    <td th:text= "': ' + ${pegawai.tahun_masuk}"></td>
+		  </tr>		
+		  <tr>
+		    <td th:text= "'Nama Instansi '"></td>
+		    <td th:text= "': ' + ${pegawai.instansi.nama_instansi}"></td>
+		  </tr>
+		  <tr>
+		    <td th:text= "'Jabatan '"></td>
+		    <td><ul th:each= "jabatan_pegawai: ${pegawai.listJabatanPegawai}">
+		    <li th:text= "${jabatan_pegawai.jabatan.nama}"></li></ul>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td th:text= "'Gaji '"></td>
+		    <td th:text= "': Rp ' + ${gaji}"></td>
+		  </tr>	
+		  </tbody>
+		</table>
+		<p></p>
+		<form th:action="@{/}">
+			<input type="hidden" name="nip">
+			<button type="submit" class="btn btn-primary">Ubah</button>
+		</form>
+		</div>
+		
+	</div>
+	
+</body>
+
+</html>
