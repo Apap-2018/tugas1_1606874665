@@ -58,7 +58,7 @@ public class PegawaiModel implements Serializable{
 	@OneToMany(mappedBy = "pegawai", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<JabatanPegawaiModel> listJabatanPegawai;
 	
-	/**@ManyToMany(fetch = FetchType.LAZY,
+	@ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                 CascadeType.PERSIST,
                 CascadeType.MERGE
@@ -67,7 +67,6 @@ public class PegawaiModel implements Serializable{
             joinColumns = { @JoinColumn(name = "id_pegawai") },
             inverseJoinColumns = { @JoinColumn(name = "id_jabatan") })
     private List<JabatanModel> jabatanList;
-	*/
 	
 
 	public long getId() {
@@ -134,7 +133,14 @@ public class PegawaiModel implements Serializable{
 		this.listJabatanPegawai = listJabatanPegawai;
 	}
 
-	
+	public List<JabatanModel> getJabatanList() {
+		return jabatanList;
+	}
+
+	public void setJabatanList(List<JabatanModel> jabatanList) {
+		this.jabatanList = jabatanList;
+	}
+
 }
 
 

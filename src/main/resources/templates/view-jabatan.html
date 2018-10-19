@@ -9,32 +9,46 @@
 
 <body>
 	<nav th:replace="fragments/fragment :: navbar"></nav>	
-	<div>
-		<div class="container-fluid">
-		<p></p>
-		<h3 th:text="'Detail Jabatan ' + ${jabatan.nama}"></h3>
-		<p></p>
-		<table class = "table">
-		<tbody>
-		  <tr>
-		    <td th:text= "'Nama'"></td>
-		    <td th:text= "': ' + ${jabatan.nama}"></td>
-		  </tr>
-		  <tr>
-		    <td th:text= "'Deskripsi'"></td>
-		    <td th:text= "': ' + ${jabatan.deskripsi_jabatan}"></td>
-		  </tr>
-		  <tr>
-		    <td th:text= "'Gaji Pokok'"></td>
-		    <td th:text= "': ' + ${jabatan.gaji_pokok}"></td>
-		  </tr>
-		  </tbody>
-		</table>
-		<p></p>
-		<form th:action="@{/jabatan/update}">
-			<button type="submit" class="btn btn-primary">Ubah</button>
-			<!-- <button type="submit" class="btn btn-primary">Hapus</button> -->
-		</form>
+	<div class="container">
+		<div class="col-md-12">
+			<div class="card border-info mb-3" style="margin:25px;">
+				<div class="card-header">
+					<h3 th:text="'Detail Jabatan ' + ${jabatan.nama}"></h3>
+				</div>
+				<div class="card-body">
+					
+					<p></p>
+					<table class = "table">
+					<tbody>
+					  <tr>
+					    <td th:text= "'Nama'"></td>
+					    <td th:text= "': ' + ${jabatan.nama}"></td>
+					  </tr>
+					  <tr>
+					    <td th:text= "'Deskripsi'"></td>
+					    <td th:text= "': ' + ${jabatan.deskripsi_jabatan}"></td>
+					  </tr>
+					  <tr>
+					    <td th:text= "'Gaji Pokok'"></td>
+					    <td th:text= "': ' + ${jabatan.gaji_pokok}"></td>
+					  </tr>
+					  </tbody>
+					</table>
+					<p></p>
+				</div>
+				<div class="card-footer">
+					<div class="row center">
+						<form th:action="@{/jabatan/update}" th:object=${jabatan} method="GET">
+								<input type="hidden" name="id_jabatan" th:value="${jabatan.id_jabatan}">
+							<button type="submit" class="btn btn-primary">Edit</button>
+						</form>
+						<form th:action="@{/jabatan/delete}" th:object=${jabatan} method="POST" style="margin-left:5px;">
+								<input type="hidden" th:field="${jabatan.id_jabatan}">
+							<button type="submit" class="btn btn-primary">Delete</button>
+						</form>
+					</div>
+				</div>				
+			</div>	
 		</div>
 	</div>
 	

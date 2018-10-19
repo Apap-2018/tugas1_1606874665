@@ -31,8 +31,10 @@ public class JabatanModel implements Serializable{
 	@Column (name= "gaji_pokok", nullable = false)
 	private Double gaji_pokok;
 
-	//@OneToMany(mappedBy = "jabatan", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	//private List<JabatanModel> listJabatan;
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(name = "jabatan_pegawai",  joinColumns = { @JoinColumn(name = "id_pegawai") },
+            inverseJoinColumns = { @JoinColumn(name = "id_jabatan") })
+	private List<PegawaiModel> pegawaiList;
 
 	public long getId_jabatan() {
 		return id_jabatan;
@@ -73,15 +75,15 @@ public class JabatanModel implements Serializable{
 	}
 
 
-	/**public List<JabatanModel> getListJabatan() {
-		return listJabatan;
+	public List<PegawaiModel> getPegawaiList() {
+		return pegawaiList;
 	}
 
 
-	public void setListJabatan(List<JabatanModel> listJabatan) {
-		this.listJabatan = listJabatan;
-	}*/
-	
+	public void setPegawaiList(List<PegawaiModel> pegawaiList) {
+		this.pegawaiList = pegawaiList;
+	}
+
 }
 
 

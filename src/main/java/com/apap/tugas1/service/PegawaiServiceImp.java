@@ -21,5 +21,6 @@ public class PegawaiServiceImp implements PegawaiService {
 	public Optional<PegawaiModel> getPegawaiDetailByNip(String nip) {
 		return pegawaiDb.findByNip(nip);
 	}
+
 	
 }

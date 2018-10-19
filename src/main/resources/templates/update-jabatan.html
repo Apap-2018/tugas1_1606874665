@@ -20,6 +20,7 @@
 					<div class="card-header">Form Update Jabatan</div>
 					<div class="card-body">
 						<form th:action="@{/jabatan/update}" th:object="${jabatan}" method="POST">
+							<input type="hidden" th:field="*{id_jabatan}" />
 							<div class="row">
 								<div class="col-md-6">
 									<p>Nama</p>
@@ -33,7 +34,7 @@
 									<p>Deskripsi</p>
 								</div>
 								<div class="col-md-6">
-									<input type="text" name="deskripsi_jabatan" th:value= "${jabatan.deskripsi}"/>
+									<input type="text" name="deskripsi_jabatan" th:value= "${jabatan.deskripsi_jabatan}"/>
 								</div>
 							</div>
 							<div class="row">

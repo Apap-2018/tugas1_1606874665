@@ -5,6 +5,5 @@ import com.apap.tugas1.model.PegawaiModel;
 
 public interface PegawaiService {
 	Optional<PegawaiModel> getPegawaiDetailByNip(String nip);
-	
-	
+		
 }

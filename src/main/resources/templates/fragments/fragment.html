@@ -2,18 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
-	
 	<head th:fragment="title">
 		<title th:text="${title}"></title>
 	</head>
 	
 	<head th:fragment="css">
-		<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
 	</head>
-	
 	<head th:fragment="js">
-		<script th:src="@{/js/bootstrap.min.js}"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 	</head>
 </head>
 
@@ -26,16 +31,16 @@
 					<a class="nav-link" th:href="@{/}">Home</a>
 				</li>
 				<li class="nav-item active">
-					<a class="nav-link" th:href="@{/}">Tambah Pegawai</a>
+					<a class="nav-link" th:href="@{/pegawai/add}">Tambah Pegawai</a>
 				</li>
 				<li class="nav-item active">
 					<a class="nav-link" th:href="@{/jabatan/add}">Tambah Jabatan</a>
 				</li>
 				<li class="nav-item active">
-					<a class="nav-link" th:href="@{/}">Cari Pegawai</a>
+					<a class="nav-link" th:href="@{/pegawai/cari}">Cari Pegawai</a>
 				</li>
 				<li class="nav-item active">
-					<a class="nav-link" th:href="@{/}">Lihat Semua Jabatan</a>
+					<a class="nav-link" th:href="@{/jabatan/view-all}">Lihat Semua Jabatan</a>
 				</li>
 			</ul>
 			

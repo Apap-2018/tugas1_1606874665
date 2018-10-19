@@ -11,17 +11,18 @@
 <body>
 	<nav th:replace="fragments/fragment :: navbar"></nav>
 	
-	<div class="container-fluid">
+	<div class="container">
 		<p></p>
+		<center>
 		<h2>Sistem Informasi Kepegawaian</h2>
 		<p></p>
 		<h4>Selamat datang di Sistem Informasi Kepegawaian</h4>
+		</center>
 		<br>
-		<div class="row">
-			<div class="col-md-6">
-				<div class="card">
+			<div class="col-md-12">
+				<div class="card border-info mb-3 text-center" style="margin:25px;">
 					<div class="card-header">
-						Lihat Data Pegawai berdasarkan NIP
+						<h3 th:text="'Tambah Jabatan'"></h3>
 					</div>
 					<p></p>
 					<form th:action="@{/pegawai/view}" method=GET>
@@ -34,12 +35,9 @@
 					</form>
 				</div>
 			</div>
-		</div>
-		<br>
-		<div class="row">
-			<div class="col-md-6">
-				<div class="card">
-					<div class="card-header">Lihat Detail Jabatan</div>
+			<div class="col-md-12">
+				<div class="card border-info mb-3 text-center" style="margin:25px;">
+					<div class="card-header"><h3 th:text="'Lihat Detail Jabatan'"></h3></div>
 					<div class="card-body">
 						Pilih Jabatan: 
 						<p></p>
@@ -56,9 +54,35 @@
 					</div>
 				</div>
 			</div>
-		</div>
+			<div class="col-md-12">
+				<div class="card border-info mb-3 text-center" style="margin:25px;">
+					<div class="card-header"><h3 th:text="'Lihat Pegawai Termuda dan Tertua'"></h3></div>
+					<div class="card-body">
+						Pilih Instansi: 
+						<p></p>
+						<form th:action="@{/pegawai/termuda-tertua}" method="GET">
+							<select id="location" th:name="id_instansi">
+								<option disabled="disabled" selected="selected">--
+									Pilih Instansi --</option>
+								<option th:each="instansi : ${listInstansi}" th:value="${instansi.id_instansi}"
+									th:text="${instansi.nama_instansi}"></option>
+							</select>
+							<p></p>
+							<button class="btn btn-primary" type="submit">Lihat</button>
+						</form>
+					</div>
+				</div>
+			</div>
 	</div>	
 	
+	
+	<script>
+	$(document).ready(function() {
+    $('#example').DataTable();
+    </script>
+} );
 </body>
+
+
 
 </html>

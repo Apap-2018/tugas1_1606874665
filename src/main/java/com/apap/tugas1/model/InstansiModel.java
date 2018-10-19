@@ -2,6 +2,7 @@ package com.apap.tugas1.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -37,6 +38,20 @@ public class InstansiModel implements Serializable{
 	@JoinColumn(name="id_provinsi", referencedColumnName = "id", nullable = false)
 	@JsonIgnore
 	private ProvinsiModel provinsi;
+	
+	@OneToMany(mappedBy = "instansi", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<PegawaiModel> pegawai;
+
+	
+
+	public List<PegawaiModel> getPegawai() {
+		return pegawai;
+	}
+
+
+	public void setPegawai(List<PegawaiModel> pegawai) {
+		this.pegawai = pegawai;
+	}
 
 
 	public long getId_instansi() {
