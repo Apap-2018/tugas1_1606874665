@@ -7,9 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-/*import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;*/
-
 
 @Entity
 @Table(name="Jabatan_pegawai")

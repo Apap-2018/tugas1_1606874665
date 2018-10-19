@@ -19,6 +19,7 @@
 								<th>No.</th>
 								<th>Nama</th>
 								<th>Deskripsi</th>
+								<th>Jumlah Pegawai</th>
 								<th>Gaji Pokok</th>
 							</tr>
 						</thead>
@@ -26,6 +27,7 @@
 							<td th:text="${iterationStatus.count}"></td>
 							<td th:text="${jabatan.nama}"></td>
 							<td th:text="${jabatan.deskripsi_jabatan}"></td>
+						    <td th:text= "${jabatan.getPegawaiList().size()}"></td>							
 							<td th:text="'Rp'+${jabatan.gaji_pokok}"></td>
 						</tr>
 					</table>

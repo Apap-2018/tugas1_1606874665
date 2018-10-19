@@ -31,14 +31,19 @@ public class JabatanModel implements Serializable{
 	@Column (name= "gaji_pokok", nullable = false)
 	private Double gaji_pokok;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinTable(name = "jabatan_pegawai",  joinColumns = { @JoinColumn(name = "id_pegawai") },
-            inverseJoinColumns = { @JoinColumn(name = "id_jabatan") })
-	private List<PegawaiModel> pegawaiList;
+	@ManyToMany(fetch = FetchType.LAZY,
+			cascade = {
+					CascadeType.PERSIST,
+					CascadeType.MERGE
+			},
+			mappedBy = "jabatanList")
+		private List<PegawaiModel> pegawaiList;
 
 	public long getId_jabatan() {
 		return id_jabatan;
 	}
+	
+	
 
 
 	public void setId_jabatan(long id_jabatan) {
@@ -78,7 +83,6 @@ public class JabatanModel implements Serializable{
 	public List<PegawaiModel> getPegawaiList() {
 		return pegawaiList;
 	}
-
 
 	public void setPegawaiList(List<PegawaiModel> pegawaiList) {
 		this.pegawaiList = pegawaiList;
