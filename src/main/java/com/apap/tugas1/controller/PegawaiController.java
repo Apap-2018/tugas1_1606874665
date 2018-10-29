@@ -181,7 +181,6 @@ public class PegawaiController {
 		List<PegawaiModel> allPegawai = pegawaiService.findAllPegawai();
 		List<PegawaiModel> result = new ArrayList<>();
 		if (idProvinsi.isPresent()) {
-			System.out.println("is it even enter this");
 			if (id_instansi.isPresent() && id_jabatan.isPresent()) {
 				// ALL instansi, jabatan, provinsi
 				//pke instansi per provinsi aja
@@ -323,11 +322,12 @@ public class PegawaiController {
 		pegawaiUpdated.setInstansi(pegawai.getInstansi());
 		pegawaiUpdated.setJabatanList(pegawai.getJabatanList());
 		
+		
 		String nipPegawai=pegawaiService.generateNip(pegawaiUpdated);
 		pegawaiUpdated.setNip(nipPegawai);
 		
 		pegawaiService.addPegawai(pegawaiUpdated);
-		
+		model.addAttribute("pegawai", pegawaiUpdated);
 		return "update-pegawai-success";
 	}
 	
@@ -343,7 +343,7 @@ public class PegawaiController {
 		List<ProvinsiModel> prov = provinsiService.findAllProvinsi();
 		model.addAttribute("listProvinsi", prov);
 		model.addAttribute("pegawai", pegawai);
-		model.addAttribute("jabatanList",jab);
+		model.addAttribute("listJabatan",jab);
 		model.addAttribute("title", "Ubah Data Pegawai");
 		return "update-pegawai";
 	}
