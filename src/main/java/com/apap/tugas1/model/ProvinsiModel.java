@@ -2,6 +2,7 @@ package com.apap.tugas1.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,7 +20,7 @@ public class ProvinsiModel implements Serializable{
 	@NotNull
 	@Size (max = 10)
 	@Column (name= "id", nullable = false)
-	private Integer id_provinsi;
+	private long id_provinsi;
 	
 	@NotNull
 	@Size (max = 255)
@@ -30,11 +31,15 @@ public class ProvinsiModel implements Serializable{
 	@Column (name= "presentase_tunjangan", nullable = false)
 	private Double presentase_tunjangan;
 
-	public Integer getId_provinsi() {
+	@OneToMany(mappedBy = "provinsi", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnore   
+	private List<InstansiModel> instansiList;
+
+	public long getId_provinsi() {
 		return id_provinsi;
 	}
 
-	public void setId_provinsi(Integer id_provinsi) {
+	public void setId_provinsi(long id_provinsi) {
 		this.id_provinsi = id_provinsi;
 	}
 
@@ -53,7 +58,15 @@ public class ProvinsiModel implements Serializable{
 	public void setPresentase_tunjangan(Double presentase_tunjangan) {
 		this.presentase_tunjangan = presentase_tunjangan;
 	}
-	
+
+	public List<InstansiModel> getInstansiList() {
+		return instansiList;
+	}
+
+	public void setInstansiList(List<InstansiModel> instansiList) {
+		this.instansiList = instansiList;
+	}
+
 	
 }
 

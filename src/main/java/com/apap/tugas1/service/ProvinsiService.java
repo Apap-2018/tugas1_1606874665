@@ -1,5 +1,16 @@
 package com.apap.tugas1.service;
 
-public class ProvinsiService {
+import java.util.List;
+import java.util.Optional;
+
+import com.apap.tugas1.model.PegawaiModel;
+import com.apap.tugas1.model.ProvinsiModel;
+
+public interface ProvinsiService {
+
+	List<ProvinsiModel> findAllProvinsi();
+
+	Optional<ProvinsiModel> getProvinsiDetailById(long idProvinsi);
+
 
 }

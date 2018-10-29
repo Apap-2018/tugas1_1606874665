@@ -13,7 +13,8 @@
 <body>
 	<nav th:replace="fragments/fragment :: navbar"></nav>
 	<p></p>
-	<h2>Data Berhasil dihapus</h2>
+	<h1>Sukses!</h1>
+	<h2 th:text= "'Pegawai dengan NIP' + ${pegawai.nip} + 'berhasil diubah'"></h2>
 	<footer th:replace="fragments/fragment :: footer"></footer>
 </body>
 

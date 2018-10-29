@@ -42,8 +42,6 @@ public class JabatanModel implements Serializable{
 	public long getId_jabatan() {
 		return id_jabatan;
 	}
-	
-	
 
 
 	public void setId_jabatan(long id_jabatan) {

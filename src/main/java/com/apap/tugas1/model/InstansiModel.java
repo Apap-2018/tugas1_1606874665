@@ -7,9 +7,12 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-/*import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;*/
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 
 @Entity
@@ -33,24 +36,25 @@ public class InstansiModel implements Serializable{
 	private String deskripsi_instansi;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@Size (max = 20)
-	@NotNull
-	@JoinColumn(name="id_provinsi", referencedColumnName = "id", nullable = false)
+	@JoinColumn(name = "id_provinsi", referencedColumnName = "id", nullable = false)
+	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JsonIgnore
 	private ProvinsiModel provinsi;
 	
-	@OneToMany(mappedBy = "instansi", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<PegawaiModel> pegawai;
-
 	
+	
+	@OneToMany(mappedBy = "instansi", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnore   
+	private List<PegawaiModel> pegawaiInstansi;
 
-	public List<PegawaiModel> getPegawai() {
-		return pegawai;
+
+	public List<PegawaiModel> getPegawaiInstansi() {
+		return pegawaiInstansi;
 	}
 
 
-	public void setPegawai(List<PegawaiModel> pegawai) {
-		this.pegawai = pegawai;
+	public void setPegawaiInstansi(List<PegawaiModel> pegawaiInstansi) {
+		this.pegawaiInstansi = pegawaiInstansi;
 	}
 
 

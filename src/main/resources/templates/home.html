@@ -22,7 +22,7 @@
 			<div class="col-md-12">
 				<div class="card border-info mb-3 text-center" style="margin:25px;">
 					<div class="card-header">
-						<h3 th:text="'Tambah Jabatan'"></h3>
+						<h3 th:text="'Lihat Data Pegawai berdasarkan NIP'"></h3>
 					</div>
 					<p></p>
 					<form th:action="@{/pegawai/view}" method=GET>
@@ -42,7 +42,7 @@
 						Pilih Jabatan: 
 						<p></p>
 						<form th:action="@{/jabatan/view}" method="GET">
-							<select id="location" th:name="id_jabatan">
+							<select class="form-control" name="id_jabatan" id="provinsi">
 								<option disabled="disabled" selected="selected">--
 									Pilih Jabatan --</option>
 								<option th:each="jabatan : ${listJabatan}" th:value="${jabatan.id_jabatan}"
@@ -61,7 +61,7 @@
 						Pilih Instansi: 
 						<p></p>
 						<form th:action="@{/pegawai/termuda-tertua}" method="GET">
-							<select id="location" th:name="id_instansi">
+							<select class="form-control" name="id_instansi" id="provinsi">
 								<option disabled="disabled" selected="selected">--
 									Pilih Instansi --</option>
 								<option th:each="instansi : ${listInstansi}" th:value="${instansi.id_instansi}"
@@ -73,6 +73,7 @@
 					</div>
 				</div>
 			</div>
+			<footer th:replace="fragments/fragment :: footer"></footer>
 	</div>	
 	
 	
