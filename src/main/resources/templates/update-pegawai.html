@@ -25,6 +25,7 @@
 					<div class="card-header text-center"><h3 th:text="'Tambah Pegawai'"></h3></div>
 					<div class="card-body">
 						<form th:action="@{/pegawai/update}" id="pegawaiForm" th:object="${pegawai}" method="POST">
+						<input type="hidden" th:field="*{id}" />
 							<div class="row">
 								<div class="col-md-6">
 									<p>Nama</p>
@@ -86,14 +87,15 @@
 									<p>Jabatan</p>
 								</div>
 								<div class="col-md-6">
-	                                <span th:each="jabatan,iterationStatus : *{jabatanList}">
-			                                <select name="jabatan"  id="jabatan" class="form-control">
-			                                    <option disabled="disabled" selected="selected">----- Pilih Jabatan ----</option>
-			                                    <option th:each="jabatan : ${listJabatan}" th:field="*{jabatanList[__${iterationStatus.index}__]}" th:value="${jabatan.id_jabatan}" th:text="${jabatan.nama}"></option>
-			                                </select>
-			                                <br>
-		                             </span>
-		                             <button type="submit" name="addJabatan" class="btn btn-primary">Tambah Jabatan Lainnya</button>
+	                               <div th:each="jabatan,iterationStats : *{jabatanList}">
+				            			<select class="form-control" th:field="*{jabatanList[__${iterationStats.index}__]}" >
+									  		<option disabled="disabled" selected="selected" value = "">----- Pilih Jabatan ----</option>
+									  		<option th:each="jabatan : ${listJabatan}" th:value="${jabatan.id_jabatan}" th:text="${jabatan.nama}" ></option>
+										</select>
+										
+				            		</div>
+				            		<br>
+		                            <button type="submit" name="addJabatan" class="btn btn-primary">Tambah Jabatan Lainnya</button>
 	                              
 								</div>
 								

@@ -86,13 +86,14 @@
 									<p>Jabatan</p>
 								</div>
 								<div class="col-md-6">
-	                                <span th:each="jabatan,iterationStatus : *{jabatanList}">
-			                                <select name="jabatan"  id="jabatan" class="form-control">
-			                                    <option disabled="disabled" selected="selected">----- Pilih Jabatan ----</option>
-			                                    <option th:each="jabatan : ${listJabatan}" th:field="*{jabatanList[__${iterationStatus.index}__]}" th:value="${jabatan.id_jabatan}" th:text="${jabatan.nama}"></option>
-			                                </select>
-			                                <br>
-		                             </span>
+		                             <div th:each="jabatan,iterationStats : *{jabatanList}">
+				            			<select class="form-control" th:field="*{jabatanList[__${iterationStats.index}__]}" >
+									  		<option disabled="disabled" selected="selected" value="" >----- Pilih Instansi ---- </option>
+									  		<option th:each="jabatan : ${listJabatan}" th:value="${jabatan.id_jabatan}" th:text="${jabatan.nama}" ></option>
+										</select>
+										
+				            		</div>
+				            		<br>
 		                             <button type="submit" name="addJabatan" class="btn btn-primary">Tambah Jabatan Lainnya</button>
 	                              
 								</div>

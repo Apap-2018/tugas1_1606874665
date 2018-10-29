@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.apap.tugas1.model.InstansiModel;
+import com.apap.tugas1.model.JabatanModel;
 import com.apap.tugas1.model.PegawaiModel;
 import com.apap.tugas1.repository.PegawaiDb;
 import com.apap.tugas1.service.PegawaiService;
@@ -64,6 +66,24 @@ public class PegawaiServiceImp implements PegawaiService {
 	@Override
 	public PegawaiModel addPegawai(PegawaiModel pegawai) {
 		return pegawaiDb.save(pegawai);
+	}
+
+
+	@Override
+	public Optional<PegawaiModel> getPegawaiDetailById(long id) {
+		return pegawaiDb.findById(id);
+	}
+
+	@Override
+	public List<PegawaiModel> getPegawaiByInstansiAndJabatan(InstansiModel instansi, JabatanModel jabatan) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<PegawaiModel> getPegawaiByInstansi(InstansiModel instansi) {
+		// TODO Auto-generated method stub
+		return pegawaiDb.findByInstansi(instansi);
 	}
 
 	

@@ -5,11 +5,23 @@
 	<object th:include="fragments/fragment :: title" th:remove="tag"></object>
 	<object th:include="fragments/fragment :: css" th:remove="tag"></object>
 	<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+	
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
 </head>
 
 <body>
 	<nav th:replace="fragments/fragment :: navbar"></nav>	
-	<div>
+	<div >
 		<div class="container">
 		<p></p>	
 		<p></p>
@@ -18,18 +30,18 @@
 				<div class="card">
 					<div class="card-header text-center"><h3 th:text="'Cari Pegawai'"></h3></div>
 					<div class="card-body">
-						<form th:action="@{/pegawai/cari}" th:object="${pegawai}" method="POST">
+						<form th:action="@{/pegawai/cari}" th:object="${pegawai}" method="GET">
 							<div class="row">
 								<div class="col-md-6">
 									<p>Provinsi</p>
 								</div>
 								<div class="col-md-6">
-									<select class="form-control" id="provinsi" >
-										<option disabled="disabled" selected="selected">-----
-											Pilih Provinsi ----</option>
-										<option th:each="provinsi : ${listProvinsi}" th:value="${provinsi.id_provinsi}"
-											th:text="${provinsi.nama_provinsi}"></option>
-									</select>
+									<select class="form-control" name="idProvinsi" id="provinsi"/>
+					 					<option disabled="disabled" selected="selected" >----- Pilih Provinsi ----</option>
+										<option th:each="provinsi : ${allProvinsi}"
+										th:value="${provinsi.id_provinsi}"
+										th:text="${provinsi.nama_provinsi}"></option>
+					 				</select>
 								</div>
 							</div>
 							<div class="row">
@@ -37,25 +49,43 @@
 									<p>Nama Instansi</p>
 								</div>
 								<div class="col-md-6">
-									<select class="form-control" name="idProvinsi" id="provinsi">
-										<option disabled="disabled" selected="selected">-----
-											Pilih Instansi ----</option>
-										<option th:each="jabatan : ${listJabatan}" th:value="${jabatan.id_jabatan}"
-											th:text="${jabatan.nama}"></option>
+									<select class="form-control" id="instansi" name="instansi">
+										<option disabled="disabled" selected="selected" >----- 
+										Pilih Instansi ---- </option>
 									</select>
 								</div>
+								<!-- 
+								<div class="col-md-6">
+									<p>Nama Instansi</p>
+								</div>
+								<div class="col-md-6">
+									
+									
+									<select class="form-control" name="idInstansi" id="instansi" style="display:none"/>
+										<option disabled="disabled" selected="selected" >Pilih Instansi</option>
+									</select>
+									
+					 				<select class="form-control" name="idInstansi" id="instansiAsli"/>
+					 					<option disabled="disabled" selected="selected" >Pilih Instansi</option>
+										<option th:each="instansi : ${allInstansi}"
+										th:value="${instansi.id_instansi}"
+										th:text="${instansi.nama_instansi}"></option>
+					 				</select>
+					 				
+								</div>  -->
 							</div>
 							<div class="row">
 								<div class="col-md-6">
 									<p>Jabatan</p>
 								</div>
 								<div class="col-md-6">
-									<select class="form-control" name="idProvinsi" id="provinsi">>
-										<option disabled="disabled" selected="selected">-----
-											Pilih Jabatan ----</option>
-										<option th:each="jabatan : ${listJabatan}" th:value="${jabatan.id_jabatan}"
-											th:text="${jabatan.nama}"></option>
-									</select>
+									<select class="form-control" name="idJabatan"/>
+					 					<option disabled="disabled" selected="selected" >Pilih Jabatan</option>
+										<option th:each="jabatan : ${allJabatan}"
+										th:value="${jabatan.id_jabatan}"
+										th:text="${jabatan.nama}"></option>
+					 				</select>
+			 				
 								</div>
 							</div>
 							<br>
@@ -77,6 +107,7 @@
 					<table id="example" class="table table-striped table-bordered table-sm display">
 						<thead>
 							<tr>
+								<th>No.</th>
 								<th>NIP</th>
 								<th>Nama</th>
 								<th>Tempat Lahir</th>
@@ -86,25 +117,58 @@
 								<th>Jabatan</th>
 							</tr>
 						</thead>
-						<tr th:each="jabatan,iterationStatus : ${listJabatan}">
-							<td th:text="${iterationStatus.count}"></td>
-							<td th:text="${jabatan.nama}"></td>
-							<td th:text="${jabatan.deskripsi_jabatan}"></td>
-						    <td th:text= "${jabatan.getPegawaiList().size()}"></td>							
-							<td th:text="'Rp'+${jabatan.gaji_pokok}"></td>
-							<td th:text="'Rp'+${jabatan.gaji_pokok}"></td>
-							<td th:text="'Rp'+${jabatan.nama}"></td>
+						<tr th:each="pegawai,iterationStatus : ${allData}">
+		     				<td th:text="${iterationStatus.count}"></td>
+							<td th:text="${pegawai.nip}"></td>
+							<td th:text="${pegawai.nama_pegawai}"></td>
+							<td th:text="${pegawai.tempat_lahir}"></td>
+							<td th:text="${pegawai.tanggal_lahir}"></td>
+							<td th:text="${pegawai.tahun_masuk}"></td>
+							<td>
+							<ul th:each="jabatan : ${pegawai.getJabatanList()}">
+								<li th:text="${jabatan.nama 	}"/>
+							</ul>
+							</td>
+							<td th:text="${pegawai.getInstansi().getNama_instansi()}+' - '+${pegawai.getInstansi().getProvinsi().getNama_provinsi()}"></td>
 						</tr>
 					</table>
 				</div>
 			</div>
 			<footer th:replace="fragments/fragment :: footer"></footer>
 		</div>
-	   <script>
-		   $(document).ready(function() {
-		       $('#example').DataTable();
-		   } );
-	  </script>
+	   <script type="text/javascript">
+			$(document).ready(function(){
+				console.log("hey")
+				$('#provinsi').change(function() {
+					valueProv = $(this).val();
+					console.log(valueProv)
+					$.ajax({
+						type: "GET",
+						url: "http://localhost:8080/pegawai/tambah/instansi?provinsi=",
+						data: {
+							'provinsiId' : valueProv
+						},
+						dataType: 'json',
+						success: function(data) {
+							console.log(data);
+							getIns = '';
+							var size = data.length;
+						
+							for (var i = 0; i<size; i++) {
+								getIns+='<option value="'+data[i].id_instansi+'">'+data[i].nama_instansi+'</option>';
+								console.log(data[i]);
+								console.log(data[i].nama_instansi)
+							}
+							console.log(getIns);
+							$('#instansi').append(getIns);
+						},
+						error: function(rs,e) {
+							alert(rs.responseText)
+						}
+					})
+				})
+			});
+		</script>
 </body>
 
 </html>

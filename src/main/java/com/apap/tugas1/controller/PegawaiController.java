@@ -3,6 +3,7 @@ package com.apap.tugas1.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.validator.constraints.pl.NIP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,7 +100,6 @@ public class PegawaiController {
 		PegawaiModel pegawai = new PegawaiModel();
 		pegawai.setJabatanList(new ArrayList());
 		pegawai.getJabatanList().add(new JabatanModel());
-		//System.out.println(pegawai.getJabatanList());
 		List<JabatanModel> listJabatan = jabatanService.findAllJabatan();
 		List<ProvinsiModel> listProvinsi = provinsiService.findAllProvinsi();
 		List<InstansiModel> listInstansi = instansiService.findAllInstansi();
@@ -145,7 +145,6 @@ public class PegawaiController {
 	private String addPegawaiSubmit (@ModelAttribute PegawaiModel pegawai,Model model) {
 		
 		System.out.println(pegawai.getNama_pegawai());
-		System.out.println("instansi->"+ pegawai.getInstansi().getNama_instansi());
 		System.out.println("nip: "+ pegawaiService.generateNip(pegawai));
 		
 		
@@ -166,12 +165,132 @@ public class PegawaiController {
 		
 	}
 	
-	@RequestMapping(value = "/pegawai/cari", method = RequestMethod.GET)
-	private String cariPegawai (@ModelAttribute PegawaiModel pegawai,Model model) {
-		List<ProvinsiModel> listProvinsi = provinsiService.findAllProvinsi();
-		model.addAttribute("listProvinsi", listProvinsi);
+	 @RequestMapping(value = "/pegawai/cari",method = RequestMethod.GET)
+	private  String filter(@RequestParam(value = "idProvinsi", required=false) Optional<String> idProvinsi,
+			@RequestParam(value="idInstansi",  required=false) Optional<String> id_instansi,
+			@RequestParam(value="idJabatan", required=false) Optional<String> id_jabatan,
+			Model model) {
+		List<JabatanModel> allJabatan = jabatanService.findAllJabatan();
+		List<InstansiModel> allInstansi = instansiService.findAllInstansi();
+		List<ProvinsiModel> allProvinsi = provinsiService.findAllProvinsi();
+		model.addAttribute("allInstansi",allInstansi);
+		model.addAttribute("allProvinsi",allProvinsi);
+		model.addAttribute("allJabatan",allJabatan);
+		model.addAttribute("title", "Cari Pegawai");
+		
+		List<PegawaiModel> allPegawai = pegawaiService.findAllPegawai();
+		List<PegawaiModel> result = new ArrayList<>();
+		if (idProvinsi.isPresent()) {
+			System.out.println("is it even enter this");
+			if (id_instansi.isPresent() && id_jabatan.isPresent()) {
+				// ALL instansi, jabatan, provinsi
+				//pke instansi per provinsi aja
+				System.out.println("masuk id instansi and jabatan");
+				List<PegawaiModel> temp = new ArrayList<>();
+				Long idInstansi = Long.parseLong(id_instansi.get());
+				InstansiModel instansi = instansiService.getInstansiDetailById(idInstansi).get();
+				System.out.println(instansi.getNama_instansi());
+				Long idJabatan = Long.parseLong(id_jabatan.get());
+				JabatanModel jabatan = jabatanService.getJabatanDetailById(idJabatan).get();
+				System.out.println(jabatan.getNama());
+				temp = pegawaiService.getPegawaiByInstansi(instansi);
+				System.out.println(temp.size());
+				for (PegawaiModel peg : temp) {
+					for (JabatanModel jab : peg.getJabatanList()) {
+						if (jab.equals(jabatan)) {
+							result.add(peg);
+						}
+					}
+				}
+				System.out.println(result.size());
+			}
+			else if (!(id_instansi.isPresent()) && id_jabatan.isPresent()) {
+				//provinsi
+				//jabatan
+				//provinsi & jabatan
+				List<PegawaiModel> temp = new ArrayList<>();
+				Long idProv = Long.parseLong(idProvinsi.get());
+				ProvinsiModel prov = provinsiService.getProvinsiDetailById(idProv).get();
+				for (PegawaiModel peg : allPegawai) {
+					if (peg.getInstansi().getProvinsi().equals(prov)) {
+						temp.add(peg);
+					}
+				}
+				Long idJabatan = Long.parseLong(id_jabatan.get());
+				JabatanModel jabatan = jabatanService.getJabatanDetailById(idJabatan).get();
+				for (PegawaiModel peg : temp) {
+					for (JabatanModel jab : peg.getJabatanList()) {
+						if (jab.equals(jabatan)) {
+							result.add(peg);
+						}
+					}
+				}
+			}
+			else if(id_instansi.isPresent() && !(id_jabatan.isPresent())) { 
+				//provinsi dan instansi
+				System.out.println("provinsi dan instansi");
+				Long idInstansi = Long.parseLong(id_instansi.get());
+				InstansiModel instansi = instansiService.getInstansiDetailById(idInstansi).get();
+				result = pegawaiService.getPegawaiByInstansi(instansi);
+				
+			}
+			else if(!(id_instansi.isPresent()) && !(id_jabatan.isPresent())) {
+				//just provinsi
+				Long idProv = Long.parseLong(idProvinsi.get());
+				ProvinsiModel prov = provinsiService.getProvinsiDetailById(idProv).get();
+				for (PegawaiModel peg : allPegawai) {
+					if(peg.getInstansi().getProvinsi().equals(prov)) {
+						result.add(peg);
+					}
+				}
+			}
+		}
+		else {
+			//jabatan
+			//instansi
+			//jabatan dan instansi-worked
+			if (id_jabatan.isPresent() && id_instansi.isPresent()) {
+				List<PegawaiModel> temp = new ArrayList<>();
+				Long idInstansi = Long.parseLong(id_instansi.get());
+				InstansiModel instansi = instansiService.getInstansiDetailById(idInstansi).get();
+				Long idJabatan = Long.parseLong(id_jabatan.get());
+				JabatanModel jabatan = jabatanService.getJabatanDetailById(idJabatan).get();
+				temp = pegawaiService.getPegawaiByInstansi(instansi);
+				for (PegawaiModel peg : temp) {
+					for (JabatanModel jab : peg.getJabatanList()) {
+						if (jab.equals(jabatan)) {
+							result.add(peg);
+						}
+					}
+				}
+			}
+			
+			//jabatan doang
+			else if(id_jabatan.isPresent() && !(id_instansi.isPresent())) {
+				Long idJabatan = Long.parseLong(id_jabatan.get());
+				JabatanModel jabatan = jabatanService.getJabatanDetailById(idJabatan).get();
+				for (PegawaiModel peg : allPegawai) {
+					for (JabatanModel jab : peg.getJabatanList()) {
+						if (jab.equals(jabatan)) {
+							result.add(peg);
+						}
+					}
+				}
+			}
+			//instansi doang
+			else if(!(id_jabatan.isPresent()) && id_instansi.isPresent()) {
+				Long idInstansi = Long.parseLong(id_instansi.get());
+				InstansiModel instansi = instansiService.getInstansiDetailById(idInstansi).get();
+				result = pegawaiService.getPegawaiByInstansi(instansi);
+			}
+			else if(!(id_jabatan.isPresent()) && !(id_instansi.isPresent())) {
+				result = null;
+			}
+		}
+		model.addAttribute("allData",result);
 		return "cari-pegawai";
 	}
+	 
 	
 	@RequestMapping(value = "/pegawai/update", method = RequestMethod.GET)
 	private String updatePegawai(@RequestParam String nip, Model model) {
@@ -194,7 +313,9 @@ public class PegawaiController {
 	@RequestMapping(value = "/pegawai/update", method = RequestMethod.POST, params={"submit"})
 	private String updatePegawaiSubmit(@ModelAttribute PegawaiModel pegawai, Model model) {	
 		System.out.println("update");
-		PegawaiModel pegawaiUpdated = pegawaiService.getPegawaiDetailByNip(pegawai.getNip()).get();
+		System.out.println("tes->"+pegawai.getId());
+		PegawaiModel pegawaiUpdated = pegawaiService.getPegawaiDetailById(pegawai.getId()).get();
+		
 		pegawaiUpdated.setNama_pegawai(pegawai.getNama_pegawai());
 		pegawaiUpdated.setTempat_lahir(pegawai.getTempat_lahir());
 		pegawaiUpdated.setTanggal_lahir(pegawai.getTanggal_lahir());
@@ -208,5 +329,22 @@ public class PegawaiController {
 		pegawaiService.addPegawai(pegawaiUpdated);
 		
 		return "update-pegawai-success";
+	}
+	
+	@RequestMapping(value="/pegawai/update",method = RequestMethod.POST, params= {"addJabatan"})
+	private String addRowUpdate (@ModelAttribute PegawaiModel pegawai, Model model, BindingResult bindingResult) {
+		if (pegawai.getJabatanList() == null) {
+			pegawai.setJabatanList(new ArrayList());
+		}
+		System.out.println(pegawai.getJabatanList().size());
+		pegawai.getJabatanList().add(new JabatanModel());
+		
+		List<JabatanModel> jab = jabatanService.findAllJabatan();
+		List<ProvinsiModel> prov = provinsiService.findAllProvinsi();
+		model.addAttribute("listProvinsi", prov);
+		model.addAttribute("pegawai", pegawai);
+		model.addAttribute("jabatanList",jab);
+		model.addAttribute("title", "Ubah Data Pegawai");
+		return "update-pegawai";
 	}
 }
